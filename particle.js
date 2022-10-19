@@ -2,7 +2,7 @@ export default class Particle {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.r = 3;
+    this.r = 10;
   }
 
   update() {
@@ -12,6 +12,18 @@ export default class Particle {
 
   finished() {
     return this.x < 0;
+  }
+
+  intersects(particles) {
+    for (let p of particles) {
+      let d = Math.sqrt((p.x - this.x)**2 + (p.y - this.y)**2);
+      if (d <= this.r * p.r) {
+        return true;
+        break;
+      }
+    }
+
+    return false;
   }
 
   render(ctx) {

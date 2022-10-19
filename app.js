@@ -12,12 +12,10 @@ const ctx = canvas.getContext('2d');
 let particle = new Particle(W / 2, 0);
 
 function update() {
+  particle.update();
   
-  if (!particle.finished()) {
-    particle.update();
-  } else {
+  if (particle.finished() || particle.intersects(snowflake)) {
     snowflake.push(particle);
-
     particle = new Particle(W / 2, 0);
   }
 }
@@ -40,4 +38,4 @@ function render() {
 setInterval(() => {
   update();
   render();
-}, 1000 / 30);
+}, 0.01);
