@@ -9,15 +9,20 @@ const snowflake = [];
 
 const ctx = canvas.getContext('2d');
 
-let particle = new Particle(W / 2, 0);
+let particle = new Particle(W / 6, 0);
 
 function update() {
-  particle.update();
-  
-  if (particle.finished() || particle.intersects(snowflake)) {
-    snowflake.push(particle);
-    particle = new Particle(W / 2, 0);
+  // particle.update();
+  // if (particle.finished() || particle.intersects(snowflake)) {
+  //   snowflake.push(particle);
+  //   particle = new Particle(W / 2, 0);
+  // }
+  while (!(particle.finished() || particle.intersects(snowflake))) {
+    particle.update();
   }
+  
+  snowflake.push(particle);
+  particle = new Particle(W / 6, 0);
 }
 
 function render() {
@@ -25,12 +30,16 @@ function render() {
   ctx.fillRect(0, 0, W, H);
   ctx.save();
   ctx.translate(W/2, H/2);
+  ctx.rotate(Math.PI / 6);
 
-  particle.render(ctx); 
-
-  snowflake.forEach(p => {
-    p.render(ctx);
-  })
+  for (let i = 0; i < 6; i++) {
+    ctx.rotate(Math.PI / 3);
+    particle.render(ctx); 
+  
+    snowflake.forEach(p => {
+      p.render(ctx);
+    });
+  }
   
   ctx.restore();
 }
